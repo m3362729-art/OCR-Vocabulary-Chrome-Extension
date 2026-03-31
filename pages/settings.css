@@ -1,0 +1,120 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+  background: #f5f7fa;
+  display: flex;
+  justify-content: center;
+  padding-top: 80px;
+  min-height: 100vh;
+}
+
+.settings-container {
+  background: #fff;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  width: 400px;
+  height: fit-content;
+}
+
+.settings-container h1 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4A90D9;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.button-group button {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#btn-save {
+  background: #4A90D9;
+  color: #fff;
+}
+
+#btn-save:hover {
+  background: #357ABD;
+}
+
+.btn-secondary {
+  background: #e8ecf1;
+  color: #555;
+}
+
+.btn-secondary:hover {
+  background: #d0d7e0;
+}
+
+#status-message {
+  font-size: 13px;
+  min-height: 20px;
+  margin-bottom: 12px;
+}
+
+#status-message.success {
+  color: #2ecc71;
+}
+
+#status-message.error {
+  color: #e74c3c;
+}
+
+.help-text {
+  font-size: 12px;
+  color: #999;
+}
+
+.help-text a {
+  color: #4A90D9;
+  text-decoration: none;
+}
+
+.help-text a:hover {
+  text-decoration: underline;
+}

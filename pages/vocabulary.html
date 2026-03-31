@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCR 單字本 - 我的單字</title>
+  <link rel="stylesheet" href="vocabulary.css">
+</head>
+<body>
+  <div class="page-header">
+    <h1>📖 我的單字本</h1>
+    <div class="header-actions">
+      <input type="text" id="search-input" placeholder="搜尋單字...">
+      <span id="word-count" class="word-count"></span>
+    </div>
+  </div>
+  <div id="card-grid" class="card-grid"></div>
+  <div id="empty-state" class="empty-state" style="display: none;">
+    <p>還沒有儲存任何單字</p>
+    <p class="empty-hint">試試在網頁上按 <kbd>Ctrl+Shift+O</kbd> 使用 OCR 擷取功能吧！</p>
+  </div>
+  <script src="vocabulary.js"></script>
+</body>
+</html>
