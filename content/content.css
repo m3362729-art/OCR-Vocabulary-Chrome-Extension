@@ -93,6 +93,20 @@
   color: #222 !important;
 }
 
+.ocr-vocab-btn-speak {
+  all: initial !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  padding: 2px 6px !important;
+  border-radius: 6px !important;
+  transition: background 0.2s !important;
+  line-height: 1 !important;
+}
+
+.ocr-vocab-btn-speak:hover {
+  background: #f0f0f0 !important;
+}
+
 .ocr-vocab-popup-pos {
   font-size: 12px !important;
   color: #888 !important;

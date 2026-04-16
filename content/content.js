@@ -112,6 +112,7 @@ function showResultPopup(data, rect) {
     <button class="ocr-vocab-popup-close">&times;</button>
     <div class="ocr-vocab-popup-header">
       <span class="ocr-vocab-popup-word">${escapeHtml(data.word)}</span>
+      <button class="ocr-vocab-btn-speak" title="發音">🔊</button>
       <span class="ocr-vocab-popup-pos">${escapeHtml(data.partOfSpeech)}</span>
     </div>
     <div class="ocr-vocab-popup-translation">${escapeHtml(data.translation)}</div>
@@ -128,6 +129,9 @@ function showResultPopup(data, rect) {
   positionElement(popup, rect);
   document.body.appendChild(popup);
 
+  // Speak button
+  popup.querySelector('.ocr-vocab-btn-speak').addEventListener('click', () => speakWord(data.word));
+
   // Close button
   popup.querySelector('.ocr-vocab-popup-close').addEventListener('click', () => popup.remove());
   popup.querySelector('.ocr-vocab-btn-close').addEventListener('click', () => popup.remove());
@@ -139,6 +143,16 @@ function showResultPopup(data, rect) {
     btn.textContent = '已儲存 ✓';
     btn.classList.add('saved');
   });
+}
+
+// === Speak Word ===
+function speakWord(word) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang = /[\u4e00-\u9fa5]/.test(word) ? 'zh-TW' : 'en-US';
+  utter.rate = 0.9;
+  window.speechSynthesis.speak(utter);
 }
 
 // === Save Word to Storage ===

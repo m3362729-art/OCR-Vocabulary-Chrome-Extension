@@ -1,9 +1,11 @@
 // === Context Menu Setup ===
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: 'trigger-ocr',
-    title: 'OCR 擷取單字',
-    contexts: ['page', 'image']
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: 'trigger-ocr',
+      title: 'OCR 擷取單字',
+      contexts: ['page', 'image']
+    });
   });
 });
 
@@ -110,15 +112,30 @@ async function callGeminiAPI(base64Image, apiKey, model) {
     }]
   };
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
+  const maxAttempts = 3;
+  let response;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
 
-  if (!response.ok) {
-    const errData = await response.json();
-    throw new Error(errData.error?.message || `API 錯誤 (${response.status})`);
+    if (response.ok) break;
+
+    // Retry on 429 (rate limit), 503 (overloaded), 500 (server error)
+    const retriable = [429, 500, 503].includes(response.status);
+    if (!retriable || attempt === maxAttempts) {
+      const errData = await response.json().catch(() => ({}));
+      const baseMsg = errData.error?.message || `API 錯誤 (${response.status})`;
+      if (response.status === 503) {
+        throw new Error('模型目前負載過高，請稍後再試，或到設定頁切換其他模型。');
+      }
+      throw new Error(baseMsg);
+    }
+
+    // Exponential backoff: 1s, 2s
+    await new Promise((r) => setTimeout(r, 1000 * attempt));
   }
 
   const result = await response.json();

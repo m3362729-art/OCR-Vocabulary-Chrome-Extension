@@ -49,11 +49,15 @@ function renderCards(words) {
         <div class="card-example-zh">${escapeHtml(item.exampleZh)}</div>
       </div>
       <div class="card-actions">
+        <button class="btn-speak" title="發音">🔊</button>
         <button class="btn-pin ${item.pinned ? 'active' : ''}" title="${item.pinned ? '取消置頂' : '置頂'}">📌</button>
         <button class="btn-delete" title="刪除">🗑️</button>
       </div>
       <div class="card-date">${dateStr}</div>
     `;
+
+    // Speak
+    card.querySelector('.btn-speak').addEventListener('click', () => speakWord(item.word));
 
     // Pin toggle
     card.querySelector('.btn-pin').addEventListener('click', () => togglePin(item.id));
@@ -63,6 +67,19 @@ function renderCards(words) {
 
     cardGrid.appendChild(card);
   });
+}
+
+// === Speak Word ===
+function speakWord(word) {
+  if (!('speechSynthesis' in window)) {
+    alert('您的瀏覽器不支援語音發音功能');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang = /[\u4e00-\u9fa5]/.test(word) ? 'zh-TW' : 'en-US';
+  utter.rate = 0.9;
+  window.speechSynthesis.speak(utter);
 }
 
 // === Toggle Pin ===
